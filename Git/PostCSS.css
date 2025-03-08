@@ -1,0 +1,55 @@
+PostCSS - Программная среда для плагинов
+
+1.Устанавливаем PostCSS для Gulp
+
+npm install --save-dev postcss gulp-postcss 
+
+2.После установки можно подключать PostCSS к сборке в вашем gulpfile.js.
+
+const postcss = require('gulp-postcss');
+
+
+function css() {
+    const plugins = []
+  return gulp.src('src/blocks/**/*.css')
+        .pipe(plumber())
+        .pipe(concat('bundle.css'))
+        .pipe(postcss(plugins))
+                .pipe(gulp.dest('dist/'))
+        .pipe(browserSync.reload({stream: true}));
+}
+
+Плагины:
+/* Autoprefixer */
+
+npm i autoprefixer --save-dev 
+
+const autoprefixer = require('autoprefixer');
+
+const plugins = [
+    autoprefixer()
+];
+
+
+
+/* postcss-combine-media-query */ - Склейка медиазапросов 
+
+npm i postcss-combine-media-query --save-dev
+
+const mediaquery = require('postcss-combine-media-query');
+
+const plugins = [
+    mediaquery()
+];
+
+
+
+/* cssnano */ Минификация CSS 
+
+npm i cssnano
+
+const cssnano = require('cssnano');
+
+const plugins = [
+    cssnano()
+];

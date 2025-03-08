@@ -1,0 +1,20 @@
+/* Псевдоклассы валидации */
+input:invalid {
+    background-color: #fd24af;
+  }
+
+  input:valid {
+    background-color: #fff;
+  }
+
+
+  
+/* Псевдоклассы валидации для числовых значений */
+
+input[type="number"]:out-of-range {
+    background-color: #fd24af;
+  }
+  
+  input[type="number"]:in-range {
+    background-color: #80d994;
+  } 

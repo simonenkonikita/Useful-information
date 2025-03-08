@@ -1,0 +1,87 @@
+✅
+/* Стилизуем выпадающие списки*/
+
+У этого элемента очень ограниченные возможности стилизации.
+
+Если вдруг дизайнер настаивает на особой красотище — придётся создавать этот элемент с нуля, используя при этом JavaScript, чтобы всё работало.
+
+❗ Нужно заставить браузер «забыть» стандартные стили этого элемента
+
+.appearence: none; -  для сброса системных стилей. Браузер больше не применяет дефолтные стили к этому элементу, и мы можем задавать свои. 
+
+✏️ Пример написания:
+
+select {
+    -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+✏️ Пример написания стилизации выпадающего списки:
+
+select {
+  border: 1px solid #000; 
+  border-radius: 0;
+  padding: 10px 15px;
+  font-family: inherit;
+  font-weight: 800; /
+  font-size: 15px; /
+  text-transform: uppercase; 
+  background-color: transparent; 
+  background-image: url(./images/up-down.svg); 
+  background-repeat: no-repeat; 
+  background-position: center right 15px; родителя */
+  background-size: 25px; 
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;  
+}
+
+
+🔴Пояслнения 
+
+select {
+    border: 1px solid #000; /* зададим рамку */
+    border-radius: 0; /* скругление углов */
+    padding: 10px 15px; /* внутренние отступы */
+    font-family: inherit; /* стили шрифта */
+    font-weight: 800; /* стили шрифта */
+    font-size: 15px; /* стили шрифта */
+    text-transform: uppercase; /* стили шрифта */
+    background-color: transparent; /* прозрачность фона */
+  
+    /* Стили для стрелочки */
+    background-image: url(./images/up-down.svg); /* картинка вместо стрелочек */
+    background-repeat: no-repeat; /* Что бы картинка не повторялась */
+    background-position: center right 15px; /* Позиция картинки относительно родителя */
+    background-size: 25px; /* позиционирование  картинки в блоке */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;  /* сброс сиилей. */
+}
+
+
+
+
+Symbols
+1️⃣ 2️⃣ 3️⃣ 4️⃣ 5️⃣ 6️⃣ 7️⃣ 8️⃣ 9️⃣ 🔟 🔢 0️⃣ #️⃣ 🔣 ◀️ ⬇️ ▶️ ⬅️ 🔠 🔡 🔤 ↙️ ↘️ ➡️➡️ ⬆️ ↖️ ↗️ ⏬ ⏫ 🔽 ⤵️ ⤴️ ↩️ ↪️ ↔️ ↕️ 🔼 🔃 🔄 ⏪ ⏩ ℹ️ 🆗 🔀 🔁 🔂 🆕 🔝 🆙 🆒 🆓 🆖 🎦 🈁 📶 🈹 🈴 🈺 🈯 🈷️ 🈶 🈵 🈚 🈸 🈳 🈲 🈂️ 🚻 🚹 🚺 🚼 🚭 🅿️ ♿ 🚇 🛄 🉑 🚾 🚰 🚮 ㊙️ ㊗️ Ⓜ️ 🛂 🛅 🛃 🉐 🆑 🆘 🆔 🚫 🔞 📵 🚯 🚱 🚳 🚷 🚸 ⛔ ✳️ ❇️ ✴️ 💟 🆚 📳 📴 💹 💱 ♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓ ⛎ 🔯 ❎ 🅰️ 🅱️ 🆎 🅾️ 💠 ♻️ 🔚 🔙 🔛 🔜 🕐 🕜 🕙 🕥 🕚 🕦 🕛 🕧 🕑 🕝 🕒 🕞 🕓 🕟 🕔 🕠 🕕 🕡 🕖 🕢 🕗 🕣 🕘 🕤 💲 ©️ ®️ ™️ ❌ ❗ ‼️ ⁉️ ⭕ ✖️ ➕ ➖ ➗ 💮 💯 ✔️ ☑️ 🔘 🔗 ➰ 〰️ 〽️ 🔱 ▪️ ▫️ ◾ ◽ ◼️ ◻️ ⬛ ⬜ ✅ 🔲 🔳 ⚫ ⚪ 🔴 🔵 🔷 🔶 🔹 🔸 🔺 🔻✏️
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

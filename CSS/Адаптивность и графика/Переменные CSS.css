@@ -1,0 +1,111 @@
+/* Переменные CSS */
+
+.Принято объявлять в начале файла CSS внутри правила для специального селектора :root. 
+
+.Пример:
+
+:root {
+    --main-color: #000;
+    --background-color: #80d994;
+}
+
+.Функция var() для использования переменной
+
+:root {
+    --main-text-color: #000;
+}
+
+body {
+    color: var(--main-text-color);
+}
+
+
+/* Переопределение переменных */
+
+button {
+    --offset: 5px;
+    box-shadow: var(--offset) var(--offset) 0 0 #feafe8;
+}
+  
+  button:hover {
+    --offset: 10px;
+}
+
+
+  /* Запасное значение переменной */
+
+  .Пример:
+
+  button {
+    box-shadow: var(--offset, 10px) 15px 0 0 #feafe8;
+}
+
+  html {
+    font-family: var(--fonts, Helvetica, Arial, sans-serif);
+}
+
+
+.Пример 2:
+
+.plan {
+    border: 5px solid var(--border-color, black);
+    padding: 25px;
+    color: var(--text-color, black);
+    background-color: var(--bkg-color, white);/* !!! */
+  }
+  
+  .plan-advanced {
+    --border-color: #6dc1fd;
+    --text-color: white;
+    --bkg-color: #5f0dee;/* !!! */
+  }
+  
+  .plan-vip {
+    --border-color: #feafe8;
+    --text-color: white;
+    --bkg-color: #fd24af;/* !!! */
+  }
+
+
+
+/* Переменная внутри другой функции */
+
+.Пример:
+
+.text {
+    color: rgb(0 0 0 / var(--opacity, 1));
+  }
+  
+  .description {
+    --opacity: 0.7;
+  }
+  
+  .note {
+    --opacity: 0.5;
+  }
+
+
+  /* Тёмная тема на CSS-переменных */
+
+  Тема 1:
+  body {
+    /* задаем переменные для фона и текста */
+    --main-text-color: #152028; 
+    --main-background-color: #fff;
+
+    display: grid;
+    place-items: center;
+    min-height: 100%;
+    margin: 0;
+    color: var(--main-text-color); /* Устанавливаем значение по умолчанию */
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    background-color: var(--main-background-color); /* Устанавливаем значение по умолчанию */
+}
+
+Тема 2:
+/* Меняем значение переменных местами при нажании на чекбокс */
+body:has(.theme-toggler__control:checked) {
+    --main-text-color: #fff;
+    --main-background-color: #152028;
+  }

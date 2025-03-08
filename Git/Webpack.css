@@ -1,0 +1,222 @@
+/* Установка зависимостей =========================================*/
+
+Устанаяливаем Node https://nodejs.org.
+Устнавливаем NPM — это менеджер пакетов для NodeJS. библиотеке пакетов -  https://www.npmjs.com/. (устанавливаетмся вместе в Node)
+
+node -v узнать версию Нода
+npm -v узнать версию NPM 
+
+/* Работа с JS ====================================================*/
+npm init - начать настраивать проект для автоматизации, чтобы создать package.json.
+npm i webpack --save-dev - для утановки Webpack
+npm i webpack-cli --save-dev -Установите интерфейс webpack
+npm i webpack-dev-server --save-dev - локальный сервер
+npm i @babel/core --save-dev - Установка Babel (для транспиляции)
+npm i @babel/preset-env --save-dev -готовые наборы  правил Babel (для транспиляции)
+npm i core-js --save -  библиотека полифилов для Babel ( самодельные аналоги новой функциональности для браузеров) (нужна в итоговом файле, поэтому загружаем как --save)
+npm i babel-loader --save-dev -пакет, который позволяет подключить Babel к Webpack.
+/* Работа в HTML */
+npm i html-webpack-plugin --save-dev -учит «Вебпак» работать с html-файлами.
+npm i clean-webpack-plugin --save-dev -плагин, который будет каждый раз при сборке проекта удалять содержимое папки dist. 
+/* Работа в CSS */
+npm i css-loader --save-dev -учить Webpack работать с CSS.
+npm i mini-css-extract-plugin --save-dev -берёт много CSS-файлов и объединяет их в один.
+/* Минификация CSS и добавление префиксов */
+npm i postcss-loader --save-dev -подключить PostCSS к «Вебпаку».
+npm i autoprefixer --save-dev - научит PostCSS добавлять вендорные префиксы
+npm i cssnano --save-dev -займётся минификацией css-кода.
+
+
+ 
+
+/* package.json ===================================================*/
+
+{
+    "name": "testconfig",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+      "build": "webpack --mode production", /* найти и запустить  webpack */
+      "dev": "webpack serve" /* скрипт запуска локального сервера */
+    },
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "devDependencies": {
+      "@babel/core": "^7.26.0", /* процесс называется транспиляции*/
+      "@babel/preset-env": "^7.26.0", /* готовые наборы  правил (пресеты) для транспиляции  */
+      "babel-loader": "^9.2.1", /* пакет, который позволяет подключить Babel к Webpack. */
+      "webpack": "^5.97.1", /* пакет webpack */
+      "webpack-cli": "^5.1.4", /* интерфейс webpack */
+      "webpack-dev-server": "^5.2.0" /* локальный сервер */
+    }
+    "dependencies": {
+      "core-js": "^3.39.0" /* библиотека полифилов для Babel ( самодельные аналоги новой функциональности для браузеров) (нужна в итоговом файле, поэтому загружаем как --save) */
+    }
+}
+
+
+/* webpack.config.js ==============================================*/
+
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin'); /* // подключите плагин HtmlWebpackPlugin для работы c HTML */
+const { CleanWebpackPlugin } = require('clean-webpack-plugin'); /* // подключили плагин CleanWebpackPlugin  */
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');  /* // подключите к проекту mini-css-extract-plugin */
+
+/* module.exports — это синтаксис экспорта в Node.js  */
+module.exports = {
+    /*entry - указали первое место, куда заглянет webpack, — файл index.js в папке src   */
+    entry: { main: './src/index.js', 
+   /*  output - указали, в какой файл будет собираться весь js, и дали ему имя  */
+    output: {
+        /*  path.resolve - переписали точку выхода, используя утилиту path */
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'main.js', 
+                publicPath: ''
+    },
+    /* добавили режим разработчика */
+    mode: 'development', 
+    /*  настройки локального сервера: */
+    devServer: {
+        static: path.resolve(__dirname, './dist'),  /* путь, куда "смотрит" режим разработчика */
+        compress: true, /*  это ускорит загрузку в режиме разработки */
+        port: 8080,  /* порт, чтобы открывать сайт по адресу localhost:8080, но можно поменять порт */
+    
+        open: true /*  сайт будет открываться сам при запуске npm run dev */
+      },
+      module: {
+        rules: [ /* // rules — это массив правил */
+         /*  // добавим в него объект правил для бабеля */
+          {
+            /* // регулярное выражение, которое ищет все js файлы */
+            test: /\.js$/,
+           /*  // при обработке этих файлов нужно использовать babel-loader */
+            use: 'babel-loader',
+            /* // исключает папку node_modules, файлы в ней обрабатывать не нужно */
+            exclude: '/node_modules/'
+          },
+          /* // добавили правило для обработки файлов (картинок и шрифтов) */
+          {
+            /* // регулярное выражение, которое ищет все файлы с такими расширениями */
+            test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
+            type: 'asset/resource' /*  значение asset/resource позволяет переносить исходные файлы в конечную сборку в том же формате. */
+          },
+          {
+            /* // применять это правило только к CSS-файлам */
+            test: /\.css$/,
+            /* // при обработке этих файлов нужно использо */вать
+            /* // MiniCssExtractPlugin.loader и css-loader */
+            use: [MiniCssExtractPlugin.loader, {
+              loader: 'css-loader'
+            } 
+            /* // Добавьте postcss-loader */
+            'postcss-loader'
+            ]
+          },
+          ]
+      },
+   /* Раздел установки плагинов «Вебпака» */
+   plugins: [
+    /* // добавьте массив работы плагина HtmlWebpackPlugin */
+    plugins: [
+        new HtmlWebpackPlugin({ /* // использовали плагин HtmlWebpackPlugin */
+          template: './src/index.html'/*  // путь к файлу index.html */
+        }),
+        new CleanWebpackPlugin(), /* // использовали плагин CleanWebpackPlugin */
+        new MiniCssExtractPlugin() /* // подключение плагина для объединения файлов MiniCssExtractPlugin */
+      ]
+  ] 
+};
+
+
+/* babel.config.js ================================================*/
+
+const presets = [
+  ['@babel/preset-env', { /* какой пресет использовать */
+    targets: { /* какие версии браузеров поддерживать */
+      edge: '17',
+      ie: '11',
+      firefox: '50',
+      chrome: '64',
+      safari: '11.1'
+    },
+
+     /* использовать полифилы для браузеров из свойства target */
+     /* по умолчанию babel использует полифилы библиотеки core-js */
+    useBuiltIns: "entry"
+  }]
+];
+
+module.exports = { presets };
+
+
+/* postcss.config.js /autoprefixer /  cssnano======================================*/
+
+/* // postcss.config.js */
+
+/* // подключите плагины в файл */
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
+
+module.exports = {
+ /*  // подключите плагины к PostCSS */
+  plugins: [
+    // подключите autoprefixer
+    autoprefixer,
+   /*  // cssnano при подключении нужно передать объект опций
+    // { preset: default } говорит о том, что нужно использовать
+    // стандартные настройки минификации */
+    cssnano({ preset: 'default' })
+  ]
+};
+
+
+
+/* Работа с картинками и шрифтами =================================================*/
+
+const whoIsTheGoat = [
+  { name: 'Michael Jordan', link: './images/jordan.jpg' },
+  { name: 'Lebron James', link: './images/james.jpg' },
+  { name: 'Kobe Bryant', link: './images/bryant.jpg' },
+];
+❗❗❗Мы используем этот массив объектов, чтобы создать DOM-элементы и затем добавить их на страницу.  «Вебпак» изменяет имена файлов при сборке, поэтому пути к картинкам будут неправильными. ❗❗❗
+
+❗❗❗Чтобы это сделать, импортируем каждое изображение в JS-файл (В чистом JS такое работать не будет):
+
+/* // теперь картинки можно импортировать,
+// вебпак добавит в переменные правильные пути */
+import jordanImage from './images/jordan.jpg';
+import jamesImage from './images/james.jpg';
+import bryantImage from './images/bryant.jpg';
+
+const whoIsTheGoat = [
+/*   // меняем исходные пути на переменные */
+  { name: 'Michael Jordan', link: jordanImage },
+  { name: 'Lebron James', link: jamesImage },
+  { name: 'Kobe Bryant', link: bryantImage },
+];
+
+❗❗❗Есть и второй способ работать с такими изображениями:
+
+// теперь картинки можно импортировать,
+// вебпак добавит в переменные правильные пути
+const jordanImage = new URL('./images/jordan.jpg', import.meta.url);
+const jamesImage = new URL('./images/james.jpg', import.meta.url);
+const bryantImage = new URL('./images/bryant.jpg', import.meta.url)
+
+const whoIsTheGoat = [
+  // меняем исходные пути на переменные
+  { name: 'Michael Jordan', link: jordanImage },
+  { name: 'Lebron James', link: jamesImage },
+  { name: 'Kobe Bryant', link: bryantImage },
+];
+
+❗❗❗Этот способ отличается от первого только тем, что работает и без запуска «Вебпака». Свойство import.meta.url — служебный параметр, указывающий на адрес файла. 
+
+
+
+
+
+1️⃣ 2️⃣ 3️⃣ 4️⃣ 5️⃣ 6️⃣ 7️⃣ 8️⃣ 9️⃣ 🔟 🔢 0️⃣ #️⃣ 🔣 ◀️ ⬇️ ▶️ ⬅️ 🔠 🔡 🔤 ↙️ ↘️ ➡️➡️ ⬆️ ↖️ ↗️ ⏬ ⏫ 🔽 ⤵️ ⤴️ ↩️ ↪️ ↔️ ↕️ 🔼 🔃 🔄 ⏪ ⏩ ℹ️ 🆗 🔀 🔁 🔂 🆕 🔝 🆙 🆒 🆓 🆖 🎦 🈁 📶 🈹 🈴 🈺 🈯 🈷️ 🈶 🈵 🈚 🈸 🈳 🈲 🈂️ 🚻 🚹 🚺 🚼 🚭 🅿️ ♿ 🚇 🛄 🉑 🚾 🚰 🚮 ㊙️ ㊗️ Ⓜ️ 🛂 🛅 🛃 🉐 🆑 🆘 🆔 🚫 🔞 📵 🚯 🚱 🚳 🚷 🚸 ⛔ ✳️ ❇️ ✴️ 💟 🆚 📳 📴 💹 💱 ♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓ ⛎ 🔯 ❎ 🅰️ 🅱️ 🆎 🅾️ 💠 ♻️ 🔚 🔙 🔛 🔜 🕐 🕜 🕙 🕥 🕚 🕦 🕛 🕧 🕑 🕝 🕒 🕞 🕓 🕟 🕔 🕠 🕕 🕡 🕖 🕢 🕗 🕣 🕘 🕤 💲 ©️ ®️ ™️ ❌ ❗❗ ‼️ ⁉️ ⭕ ✖️ ➕ ➖ ➗ 💮 💯 ✔️ ☑️ 🔘 🔗 ➰ 〰️ 〽️ 🔱 ▪️ ▫️ ◾ ◽ ◼️ ◻️ ⬛ ⬜ ✅ 🔲 
+🔳 ⚫ ⚪ 🔴 🔵 🔷 🔶 🔹 🔸 🔺 🔻
+✏️ Пример написания:

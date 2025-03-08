@@ -1,0 +1,60 @@
+/* Пульт управления */
+
+В проекте есть центр управления всеми зависимостями и командами — зона "scripts" внутри файла package.json. Там вы можете коллекционировать и комбинировать все ваши команды проекту. Стоит создать в этой зоне два дополнительных ключа. Пусть ключ build выполняет команду gulp build, а ключ dev запускает для вас среду разработки. Вот как будет выглядеть весь комплект скриптов:
+
+{
+    "name": "project",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo 'Привет!'",
+      "check": "prettier --check './src/**/*.{html,css,js}'",
+      "format": "prettier --write './src/**/*.{html,css,js}'",
+      "lint": "stylelint './src/**/*.css'",
+      "lintfix": "stylelint './src/**/*.css' --fix",
+      "checkAll": "npm run check && npm run lint",
+      "fixAll": "npm run format && npm run lintfix",
+      "build": "gulp build",
+      "dev": "gulp",
+      "fixAndBuild": "npm run fixAll && npm run build"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+      "browser-sync": "^2.29.1",
+      "del": "^6.0.0",
+      "gulp": "^4.0.2",
+      "gulp-concat-css": "^3.1.0",
+      "gulp-plumber": "^1.2.1",
+      "prettier": "^2.8.7",
+      "stylelint": "^15.4.0"
+    }
+  }
+  команда fixAndBuild, которая будет сначала исправлять ваши исходники, а потом собирать проект. Выглядеть она будет так:
+
+  Команда 
+  npm run fixAll && npm run build
+
+
+
+ /*  Автоматизация проверки кода перед отправкой в GitHub */
+
+ "scripts": {
+  "test": "echo 'Привет!'",
+  "check": "prettier --check './src/**/*.{html,css,js}'",
+  "format": "prettier --write './src/**/*.{html,css,js}'",
+  "lint": "stylelint './src/**/*.css'",
+  "lintfix": "stylelint './src/**/*.css' --fix",
+  "checkAll": "npm run check && npm run lint",
+  "fixAll": "npm run format && npm run lintfix",
+  "build": "gulp build",
+  "dev": "gulp",
+  "fixAndBuild": "npm run fixAll && npm run build",
+  "lintfixAndPush": "npm run fixAll && git add . && git commit -m 'подготовили к публикации' && git push"
+},
+
+Команда 
+npm run lintfixAndPush
+
+Особенность работы новой команды в том, что если исправление или форматирование не удастся, в GitHub код не отправится, исполнение команд приостановится.

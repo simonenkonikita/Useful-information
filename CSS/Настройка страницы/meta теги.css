@@ -1,0 +1,121 @@
+✅
+/* Описание сайта для браузеров и поисковых машин */
+
+В <head> описывают правила, по которым браузер работает с веб-страницей. Например, вот так:
+
+<meta charset="utf-8"> — определяет кодировку страницы;
+<title></title> — задаёт имя во вкладке браузера;
+<link rel="icon" href="favicon.ico"> — задаёт изображение во вкладке браузера.
+
+
+✅
+/* Страктура meta тега */
+
+<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+
+<meta - название элемента, сообщает браузеру о смысле тега.
+name=" " - Название метатега, Атрибут name определяет назначение метатега.
+content=" " - инструкиця, Атрибут content содержит саму инструкцию.
+
+
+✅
+/* ОБЯЗАТЕЛЬНЫЕ МЕТА ТЕГИ */
+
+➕ /* Метатеги для отображения страницы */
+
+<meta name="viewport" content="device-width, initial-scale=1"> -  определяет поведение страницы в зависимости от размера дисплея.
+
+name="viewport" - сообщает браузеру, как выглядит видимая пользователю область страницы. 
+
+Здесь две инструкции:
+
+width=device-width — видимая пользователю часть занимает всю ширину экрана;
+initial-scale=1 — указывает, что страница не должна увеличиваться или уменьшаться (масштабироваться) при загрузке.
+
+
+➕ /* Метатеги для поисковиков */
+
+<meta name="description" content="Страница про различные веб-технологии, на которой я делюсь своим опытом"> 
+
+name="description" - Описание контента прописывают в метатеге description. Он содержит небольшой текст — около абзаца — который рассказывает, чему посвящён сайт.
+
+в инструкции указывается описание сайта.
+
+
+➕/* Фавикона */
+
+Фавиконка должна быть форматов PNG, SVG или ICO
+
+От дизайнера понадобится фавикон в формате SVG. Дальше нужно преобразовать этот файл в форматы PNG и ICO. Размеры PNG должны быть 512 x 512 пикселей, а ICO — 32 x 32 пикселя. Конвертировать картинку в разные форматы можно с помощью любого конвертера в интернете — просто напишите в поисковике «SVG to ICO» или «SVG to PNG».
+
+.Подключение Фавиконки:
+
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+.Пояснения:
+
+<link rel="icon" href="favicon.ico" sizes="any">
+нужна для старых браузеров. Но в ней появился атрибут sizes="any". Этот атрибут чинит неправильное поведение некоторых браузеров, когда они выбирают ICO-файл вместо SVG, хотя умеют работать и с последним.
+
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+В следующей строчке мы подключаем фавикон в формате SVG. Это самый предпочтительный формат. Потому что его можно адаптировать под разные размеры без потери качества. На сегодняшний день 76% браузеров умеют работать с фавиконкой в SVG. В этой же строке с помощью атрибута type мы явно сообщаем браузеру, что за формат у изображения.
+
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+Последняя строчка нужна на случай, если пользователь захочет добавить сайт в виде иконки на смартфоне или планшете. На iPhone и iPad это можно сделать, выбрав пункт «Добавить на экран Домой». Тогда в виде иконки будет использоваться как раз PNG-картинка из третьей строчки.
+
+
+➕ /* Разметка OpenGraph */
+
+Метатег для подключени красивой картинки к ссылки на сайт в социальных сетях и мессенджерах 
+
+.Подключение для красивой карточки в большинстве социальных сетей такие:
+
+<meta property="og:title" content="Можно мягче">
+<meta property="og:url" content="https://maybesofter.com/">
+<meta property="og:image" content="images/og.jpg">
+<meta property="twitter:card" content="summary_large_image">
+
+
+.Пояснения:
+
+<meta property="og:title" content="Можно мягче">
+В первой строке мы дублируем содержимое из тега <title>. 
+
+<meta property="og:url" content="https://maybesofter.com/">
+Во второй строке даём ссылку на страницу. 
+
+<meta property="og:image" content="/images/og.jpg">
+В третьей строке указываем путь до картинки, которая будет обложкой карточки предпросмотра.
+
+<meta property="twitter:card" content="summary_large_image">
+У Twitter есть собственный формат тегов. Для красивых карточек там понадобится дополнительный тег. Благодаря ему в карточке будет большая картинка.
+
+
+✅
+/* СТРУКТУРА СТРАНИЦЫ С МЕТА ТЕГАМИ */
+
+<!DOCTYPE html>
+
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+
+    <meta name="description" content="Очень популярная народная присказка, используемая в целях мотивации">
+    <link rel="icon" href="./favicon/favicon.ico" sizes="any" />
+    <link rel="icon" href="./favicon/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./favicon/apple-touch-icon.png" />
+    <meta property="og:title" content="Поговорка" />
+    <meta property="og:url" content="/" />
+    <meta property="og:image" content="./preview/og.jpg" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <title>Поговорка</title>
+    <link rel="stylesheet" href="https://code.s3.yandex.net/web-code/fonts/fonts.css"/>
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+  <body>
+    <h1>Текст</h1>
+  </body>
+</html>

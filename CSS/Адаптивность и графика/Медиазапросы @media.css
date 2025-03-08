@@ -1,0 +1,188 @@
+/* Написание педиазопросов */
+
+1. В HTML-атрибуте media для тега link и style:
+
+<link rel="stylesheet" media="(resolution >= 2x)" href="retina.css">
+<style media="(resolution >= 2x)"></style>
+
+2. В Директиве @import:
+
+import "retina.css" (resolution >= 2x);
+
+3. С директивой @media
+
+@media (resolution >= 2x) {
+    /* Стили для ретины */
+}
+
+Медиазапрос может содержать: модификатор, медиатип, характеристику устройства и логический оператор.
+
+/* Медиатипы  */
+
+.all - на любом, по умолчанию
+.screen - на устройстве с экранами (screen)
+.print -для печатающих устройств и документов в режиме «Предварительный просмотр» 
+
+@media screen {
+    body {
+        font-family: 'Open Sans', sans-serif;
+    }
+} 
+
+
+/* Модификаторы */
+
+.not — инвертирует условие. 
+.only — говорит старым браузерам игнорировать медиазапрос. В настоящее время можно не указывать.
+
+@media not screen {
+    body {
+        background-color: red;
+    }
+} 
+
+
+/* Оператиры */
+
+.and -  можно объединить условия с помощью логического оператора, в таком случае фон перекрасится при соблюдении всех условий
+
+@media (min-width: 768px) and (orientation: landscape) {
+    body {
+    background-color: #000;
+  }
+} 
+
+
+.or или "," - запятая, для выполнения одного из условий
+
+@media (min-width: 768px), (orientation: landscape) {
+    body {
+    background-color: #000;
+  }
+}
+
+@media (min-width: 768px) or (orientation: landscape) {
+    body {
+    background-color: #000;
+  }
+} 
+
+
+/* Синтаксис диапазонов,
+ Математических операторах сравнения:  */
+
+<, 
+>, 
+<=, 
+>=, 
+=.
+
+@media (width <= 720px) {
+    body {
+        /* Стили body при ширине меньше 720px */
+    }
+}
+
+@media (height >= 720px) {
+    body {
+        /* Стили body при высоте больше 720px */
+    }
+} 
+
+@media (1200px <= width < 1400px) {
+    .block {
+        /* Стили блока при ширине окна просмотра >= 1200px и < 1400px */
+    }
+} 
+
+
+/* Характеристики устройст */
+
+.max-width — максимальная ширина окна просмотра
+.min-width — минимальная ширина окна просмотра
+.max-height — максимальная высота окна просмотра
+.min-height — минимальная высота окна просмотра
+
+@media (min-width: 720px) {
+    body {
+        background-color: green;
+    }
+} 
+
+.orientation: - ориентация устроиства
+
+landscape- альбомная (когда ширина окна просмотра больше его высоты).
+portrait- портретная (когда высота больше ширины)
+
+@media (orientation: landscape) {
+    body {
+      background-color: #ffffff;
+    }
+  }
+  
+  @media (orientation: portrait) {
+    body {
+      background-color: #000000;
+    }
+} 
+
+    
+.resolution — разрешение устройства.
+
+min-resolution — минимальное разрешение устройства.
+max-resolution — максимальное разрешение устройства.
+
+.photo {
+    background-image: url(./images/photo.jpg);
+}
+
+@media (resolution: 2x) {
+  .photo {
+        background-image: url(./images/photo_2x.jpg);
+    }
+} 
+
+
+/* Брейкпоинт - точка изменения макета  */
+
+/* Альтернативные единицы измерений для брейкпоинтов */
+
+Чаще всего для брейкпоинтов используются пиксели:
+@media (min-width: 576px) {}
+@media (min-width: 768px) {}
+@media (min-width: 992px) {}
+@media (min-width: 1200px) {}
+@media (min-width: 1400px) {} 
+Но вместо них можно использовать относительные единицы em или rem. Не стоит этого пугаться! Если ваши пользователи предпочитают менять размер шрифта в своём браузере или операционной системе, они скажут вам спасибо. Люди так делают, например, из-за слабого зрения или просто ради удобства.
+Чтобы посчитать нужное значение в относительных единицах, разделите значение брейкпоинта в пикселях на 16px. Например, если по макету изменение внешнего вида происходит при 1440px, брейкпоинт будет 1440 / 16 = 90em.
+
+
+/* Где писать медиазапросы */
+
+В общий файл подключаются все стили конкретной группы, например:
+base.css — содержит все базовые стили.
+mobile.css — содержит все стили для смартфонов.
+tablet.css — содержит все стили для планшета.
+desktop.css — содержит все стили для декстопа.
+theme-light.css — содержит все стили для светлой темы.
+theme-dark.css — содержит все стили для тёмной темы.
+retina.css — содержит все стили для ретины.
+animation.css — содержит все анимации.
+touch.css — содержит все стили для сенсорных устройств.
+print — содержит все стили для печати.
+
+В этом случае стили из разных файлов начинают дополнять друга друга, и получается итоговый внешний вид элемента.
+Например, для пользователя на мобильном устройстве и предпочитающего тёмную тему интерфейс будет отрисован, исходя из файлов: base.css, mobile.css, retina.css, touch.css и theme-dark.css.
+Затем файл группы подключается при помощи атрибута media тега link в HTML.
+
+<link rel="stylesheet" href="./base/base.css">
+<link rel="stylesheet" media="(width < 768px)" href="./mobile/mobile.css">
+<link rel="stylesheet" media="(768px <= width < 1024px)" href="./tablet/tablet.css">
+<link rel="stylesheet" media="(width >= 1024px)" href="./desktop/desktop.css">
+
+<link rel="stylesheet" media="(prefers-color-scheme: light)" href="./theme/light/theme-light.css">
+<link rel="stylesheet" media="(prefers-color-scheme: dark)" href="./theme/dark/theme-dark.css">
+<link rel="stylesheet" media="(prefers-reduced-motion: no-preference)" href="./animation/animation.css">
+<link rel="stylesheet" media="(resolution >= 2x)" href="./retina/retina.css">
+<link rel="stylesheet" media="(pointer: course)" href="./touch/touch.css">
+<link rel="stylesheet" media="print" href="./print/print.css"> 

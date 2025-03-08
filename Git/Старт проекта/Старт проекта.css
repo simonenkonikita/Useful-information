@@ -1,0 +1,223 @@
+
+/* 1. Создаем структуру  */
+
+Делим файлы на исходники и результаты сборки
+
+src/ — для исходников;
+dist/ — для результатов сборки (будет создан автоматически)
+
+/* 2. Устанавливаеть в свой проект дополнительные программы */
+
+1.Устанавливаем NodeJS и NPM c сайта (если нетустановлен на ПК до этого)
+
+2.Проверяем, что всё работает через терминал 
+node -v
+npm -v
+
+3.Начать настраивать проект, что бы появился файл package.json
+npm init
+
+4. Команда для запуска команд npm run имя-ключа
+
+5.подключаем пакеты (незабываем делить на категории devDependencies и dependencies используя флаг --save-dev )
+
+npm i prettier --save-dev 
+
+npm i stylelint --save-dev 
+
+6.Появится папка node_modules. В неё будут скачаны все файлы этих библиотек. 
+/* Папку node_modules с библиотека не пушим в Git */ 
+Для того, чтобы папка node_modules не попадала в Git, в проекте создают специальный файл с указанием, что не загружать. Этот файл создают в корне проекта с именем .gitignore. В него записывают имя папки со слешем в конце node_modules/.
+
+7.Prettier - Настраиваем и запускаем (форматтер)
+prettier --check './**/*.{html,css,js}' - команда запустит проверку форматирования, после её выполнения в терминале будут сообщения о найденных ошибках форматирования
+Ключ для запуска - "check"
+
+prettier --write './**/*.{html,css,js}' — команда, которая сразу исправит все ошибки, которые сможет 
+Ключ для запуска - "format"
+
+/* Изменить поведение Prettier */
+Чтобы поменять поведение Prettier  (с ковычками), в корне проекта можно создать специальный файл, переопределяющий поведение программы. Этот файл нужно назвать .prettierrc. Мы рекомендуем такую конфигурацию:
+
+{
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
+  } .
+
+
+8.Stylelint - Настраиваем и запускаем (линтер)
+stylelint **/*.css — выведет в терминал все ошибки в коде с указанием файлов и строк, где ошибки возникли
+Ключ для запуска - "lint"
+
+stylelint **/*.css --fix — попробует исправить те ошибки, которые сможет
+Ключ для запуска - "lintfix"
+
+/* Для работы Stylelint нужно создать файл: */
+stylelint.config.js -  в корне проекта. Без дополнительных настроек он выглядит так:
+
+module.exports = {
+    rules: { /* в rules - надо описать правила */
+  
+    }
+  } 
+
+/*  готовый конфиг с частоиспользуемыми правилами */
+module.exports = {
+    rules: {
+      'color-no-invalid-hex': true,
+      'value-keyword-case': ['lower', { camelCaseSvgKeywords: true }],
+      'property-no-unknown': true,
+      'declaration-block-no-duplicate-properties': true,
+      'declaration-block-no-shorthand-property-overrides': true,
+      'media-feature-name-no-unknown': true,
+      'comment-no-empty': true,
+      'no-descending-specificity': true,
+      'no-duplicate-selectors': true,
+      'no-invalid-position-at-import-rule': true,
+      'alpha-value-notation': 'number',
+      'color-function-notation': 'modern',
+      'color-hex-length': 'short',
+      'length-zero-no-unit': true,
+      'function-url-quotes': 'never',
+      'import-notation': 'url',
+      'shorthand-property-no-redundant-values': true,
+      'declaration-no-important': true,
+      'declaration-block-single-line-max-declarations': 1,
+      'no-unknown-animations': true,
+      'selector-type-case': 'lower',
+      'rule-empty-line-before': 'always',
+      'at-rule-empty-line-before': 'always',
+      'selector-class-pattern': null,
+      'font-family-name-quotes': 'always-where-recommended',
+    },
+  }; 
+
+9.Соединяем всё вместе
+
+4 правила:
+    проверить код через Prettier (check);
+    исправить код через Prettier (format);
+    проверить код через Stylelint (lint);
+    попытаться исправить код через Stylelint (lintfix).
+
+оба инструмента, разом через оператор &&:
+    ключ "checkAll" со значением "npm run check && npm run lint"
+    ключ "fixAll" со значением "npm run format && npm run lintfix"
+
+/* Указание кллючей package.json */
+{
+    "name": "test-project",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+  "test": "echo 'Привет!'",
+  "check": "prettier --check './src/**/*.{html,css,js}'",
+  "format": "prettier --write './src/**/*.{html,css,js}'",
+  "lint": "stylelint './src/**/*.css'",
+  "lintfix": "stylelint './src/**/*.css' --fix",
+  "checkAll": "npm run check && npm run lint",
+  "fixAll": "npm run format && npm run lintfix"
+},
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "prettier": "^2.8.0",
+      "stylelint": "^14.15.0"
+    }
+  }
+
+10.Gulp Настраиваем и запускаем (Сборщик и таск-раннер)
+/* устанавливаем Gulp */
+npm install -g gulp - Сначала глобально, на весь компьютер.
+npm install gulp --save-dev - внутрь вашего проекта как devDependencies
+
+/* Для работы Gulp нужно создать файл: */
+gulpfile.js -  в корне проекта. 
+
+/* Установка плагинов Gulp */
+/* список популярных плагинов gulp */
+gulp-concat-css — он умеет склеивать CSS-файлы в один;
+browser-sync — позволит сделать сервер с режимом просмотра результатов в реальном времени;
+gulp-plumber — плагин, который производит сборку, даже если в коде есть ошибки (как минимум пытается собрать этот код);
+del — умеет удалять файлы и папки. Он нам нужен, чтобы при удалении чего-то из исходников, файлы удалялись и из сборки. С ним есть особенность. Мы возьмём его конкретную версию 6.0.0. На момент написания статьи с более поздними версиями происходят баги.
+
+Команда для установки этих плагинов
+npm i browser-sync --save-dev
+npm i del@6.0.0 --save-dev
+npm i gulp-concat-css --save-dev
+npm i gulp-plumber --save-dev
+
+11.Создаем задачи Gulp. Устанавливаем готовый конфиг
+
+
+
+/* Постпроцессинг */
+
+12.Настраиваем browserslist
+
+Выбор браузера, под который нужно оптимизировать код
+
+Самый простой способ описать нужные браузеры — добавить в package.json новый ключ "browserslist", а в нём перечислить требования к браузерам, ориентируясь на формат описаний с сайта Browserslist. Вот как может выглядеть инструкция:
+
+"browserslist": [
+    "last 2 versions",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+]
+
+13.Устанавливаем PostCSS для Gulp
+
+npm install --save-dev postcss gulp-postcss
+
+function css() {
+    const plugins = []
+  return gulp.src('src/blocks/**/*.css')
+        .pipe(plumber())
+        .pipe(concat('bundle.css'))
+        .pipe(postcss(plugins))
+                .pipe(gulp.dest('dist/'))
+        .pipe(browserSync.reload({stream: true}));
+}
+
+14.Плагины PostCSS
+
+Плагины:
+/* Autoprefixer */
+
+npm i autoprefixer --save-dev 
+
+const autoprefixer = require('autoprefixer');
+
+const plugins = [
+    autoprefixer()
+];
+
+
+
+/* postcss-combine-media-query */ - Склейка медиазапросов 
+
+npm i postcss-combine-media-query --save-dev
+
+const mediaquery = require('postcss-combine-media-query');
+
+const plugins = [
+    mediaquery()
+];
+
+
+
+/* cssnano */ Минификация CSS 
+
+npm i cssnano
+
+const cssnano = require('cssnano');
+
+const plugins = [
+    cssnano()
+];
+

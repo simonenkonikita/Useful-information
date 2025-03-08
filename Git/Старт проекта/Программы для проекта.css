@@ -1,0 +1,26 @@
+npm i prettier --save-dev 
+npm i stylelint --save-dev 
+
+Gulp
+npm install -g gulp
+npm install gulp --save-dev
+
+Плагины Gulp
+npm i browser-sync --save-dev
+npm i del@6.0.0 --save-dev
+npm i gulp-concat-css --save-dev
+npm i gulp-plumber --save-dev
+
+PostCSS
+npm install --save-dev postcss gulp-postcss
+
+Плагины PostCSS
+npm i autoprefixer --save-dev 
+npm i postcss-combine-media-query --save-dev
+npm i cssnano --save-dev
+
+Постпроцессинг HTML (Плагины Gulp)
+npm i html-minifier --save-dev
+
+
+
